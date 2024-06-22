@@ -31,10 +31,10 @@
             document.getElementById('message').textContent = '페이지에 접근하려면 특정 키가 필요합니다.';
         } else {
             // 미리 설정된 키 확인
-            const isValidKey = namesData.names.some(item => item.key === key);
+            const foundNameObj = namesData.names.find(item => item.key === key);
 
-            if (isValidKey) {
-                document.getElementById('message').textContent = '환영합니다! 메인 페이지에 접근하셨습니다.';
+            if (foundNameObj) {
+                document.getElementById('message').textContent = `환영합니다 ${foundNameObj.name}! 메인 페이지에 접근하셨습니다.`;
             } else {
                 document.getElementById('message').textContent = '유효하지 않은 키입니다. 다시 시도하세요.';
             }
