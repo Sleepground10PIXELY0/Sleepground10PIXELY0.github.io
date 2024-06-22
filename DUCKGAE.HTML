@@ -10,48 +10,33 @@
     <button id="getKeyButton">Access Main Page</button>
 
     <script>
+        // 미리 설정된 이름과 키 데이터
+        const namesData = {
+            "names": [
+                { "name": "RATH4R", "key": "rath4r-key" },
+                { "name": "DUCKGAE", "key": "duckgae-key" },
+                { "name": "Heptagram", "key": "heptagram-key" },
+                { "name": "ehdgh141", "key": "ehdgh141-key" },
+                { "name": "Sleepground", "key": "sleepground-key" },
+                { "name": "SUHYEN", "key": "suhyen-key" }
+            ]
+        };
+
         document.getElementById('getKeyButton').addEventListener('click', function() {
-            const key = generateKey(); // 특정 키 생성 함수 호출
-            const name = "DUCKGAE"; // 추가할 이름
+            const name = "DUCKGAE"; // 가져올 이름
+            const predefinedKey = getPredefinedKey(name); // 미리 설정된 키 가져오기
 
-            addNameAndKeyToJson(name, key); // JSON 파일에 이름과 키 추가
-            redirectToMainPage(key);
-        });
-
-        function generateKey() {
-            return Math.random().toString(36).substr(2, 10); // 랜덤한 10자리 문자열 생성
-        }
-
-        function addNameAndKeyToJson(name, key) {
-    fetch('names.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            if (predefinedKey) {
+                redirectToMainPage(predefinedKey);
+            } else {
+                console.error(`"${name}"에 대한 미리 설정된 키를 찾을 수 없습니다.`);
             }
-            return response.json();
-        })
-        .then(data => {
-            const newData = {
-                name: name,
-                key: key
-            };
-            data.names.push(newData);
-
-            return fetch('names.json', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-        })
-        .then(() => {
-            console.log('새로운 이름과 키가 추가되었습니다.');
-        })
-        .catch(error => {
-            console.error('이름과 키를 추가하는 중 오류가 발생했습니다:', error);
         });
-}
+
+        function getPredefinedKey(name) {
+            const foundName = namesData.names.find(item => item.name === name);
+            return foundName ? foundName.key : null;
+        }
 
         function redirectToMainPage(key) {
             window.location.href = `main.html?key=${key}`; // 메인 페이지로 키 전달

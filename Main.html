@@ -10,6 +10,18 @@
     <div id="message"></div>
 
     <script>
+        // 미리 설정된 이름과 키 데이터
+        const namesData = {
+            "names": [
+                { "name": "RATH4R", "key": "rath4r-key" },
+                { "name": "DUCKGAE", "key": "duckgae-key" },
+                { "name": "Heptagram", "key": "heptagram-key" },
+                { "name": "ehdgh141", "key": "ehdgh141-key" },
+                { "name": "Sleepground", "key": "sleepground-key" },
+                { "name": "SUHYEN", "key": "suhyen-key" }
+            ]
+        };
+
         // URL에서 키 확인
         const urlParams = new URLSearchParams(window.location.search);
         const key = urlParams.get('key');
@@ -18,8 +30,10 @@
         if (!key) {
             document.getElementById('message').textContent = '페이지에 접근하려면 특정 키가 필요합니다.';
         } else {
-            // 키가 있는 경우, 실제로는 서버 측에서 유효성 검사를 해야 합니다.
-            if (key === 'your-secret-key') {
+            // 미리 설정된 키 확인
+            const isValidKey = namesData.names.some(item => item.key === key);
+
+            if (isValidKey) {
                 document.getElementById('message').textContent = '환영합니다! 메인 페이지에 접근하셨습니다.';
             } else {
                 document.getElementById('message').textContent = '유효하지 않은 키입니다. 다시 시도하세요.';
