@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>잠뜰TV의 10년, 픽셀리 새출발!</title>
+</head>
+<body>
+    <h1>Main Page</h1>
+    <div id="message"></div>
+
+    <script>
+        // URL에서 키 확인
+        const urlParams = new URLSearchParams(window.location.search);
+        const key = urlParams.get('key');
+
+        // 키가 없는 경우 처리
+        if (!key) {
+            document.getElementById('message').textContent = '페이지에 접근하려면 특정 키가 필요합니다.';
+        } else {
+            // 키가 있는 경우, 실제로는 서버 측에서 유효성 검사를 해야 합니다.
+            if (key === 'your-secret-key') {
+                document.getElementById('message').textContent = '환영합니다! 메인 페이지에 접근하셨습니다.';
+            } else {
+                document.getElementById('message').textContent = '유효하지 않은 키입니다. 다시 시도하세요.';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RATH4R</title>
+</head>
+<body>
+    <h1>RATH4R</h1>
+    <button id="getKeyButton">Access Main Page</button>
+
+    <script>
+        document.getElementById('getKeyButton').addEventListener('click', function() {
+            const key = generateKey(); // 특정 키 생성 함수 호출
+            const name = "RATH4R"; // 추가할 이름
+
+            addNameAndKeyToJson(name, key); // JSON 파일에 이름과 키 추가
+            redirectToMainPage(key);
+        });
+
+        function generateKey() {
+            return Math.random().toString(36).substr(2, 10); // 랜덤한 10자리 문자열 생성
+        }
+
+        function addNameAndKeyToJson(name, key) {
+    fetch('names.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const newData = {
+                name: name,
+                key: key
+            };
+            data.names.push(newData);
+
+            return fetch('names.json', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+        })
+        .then(() => {
+            console.log('새로운 이름과 키가 추가되었습니다.');
+        })
+        .catch(error => {
+            console.error('이름과 키를 추가하는 중 오류가 발생했습니다:', error);
+        });
+}
+
+        function redirectToMainPage(key) {
+            window.location.href = `main.html?key=${key}`; // 메인 페이지로 키 전달
+        }
+    </script>
+</body>
+</html>
